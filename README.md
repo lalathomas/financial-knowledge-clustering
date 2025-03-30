@@ -1,7 +1,7 @@
 # financial-knowledge-clustering
 
 This project provides a full pipeline that:
-1. Accepts a list of financial article URLs (from a CSV like `Fin.csv`),
+1. Accepts a list of financial article URLs (from a CSV like `example_input_sources.csv`),
 2. Scrapes content from the articles and extracts a title, content, and summary for each,
 3. Uses natural language processing to extract financial concepts and causal relationships,
 4. Builds a knowledge graph in a Neo4j database, and
