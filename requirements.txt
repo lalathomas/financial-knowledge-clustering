@@ -1,0 +1,9 @@
+pandas
+numpy
+nltk
+spacy
+neo4j
+sklearn
+sentence-transformers
+matplotlib
+seaborn
