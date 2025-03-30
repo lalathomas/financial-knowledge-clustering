@@ -1,58 +1,74 @@
-
 # financial-knowledge-clustering
 
-This project applies natural language processing (NLP) and network analysis to uncover structured insights from unstructured financial text data.
+This project provides a full pipeline that:
+1. Accepts a list of financial article URLs (from a CSV like `Fin.csv`),
+2. Scrapes content from the articles and extracts a title, content, and summary for each,
+3. Uses natural language processing to extract financial concepts and causal relationships,
+4. Builds a knowledge graph in a Neo4j database, and
+5. Applies clustering algorithms to group related financial knowledge.
 
-It automates the extraction of financial concepts and causal relationships from article content, builds a causal knowledge graph using Neo4j, and applies clustering algorithms to identify related groups of financial information.
+## Features
 
----
+- Web scraper to extract article content from provided URLs
+- Transformer-based summarization and NLP processing
+- Subject-Verb-Object pattern matcher for causal link extraction
+- Neo4j integration for building and querying the graph
+- Multiple clustering algorithms (KMeans, GMM, Agglomerative, etc.)
+- Dimensionality reduction and visualization (t-SNE)
 
-## 🔧 Features
+## Requirements
 
-- **CSV-Based Input**: Accepts any CSV file containing financial news data with a `content` column.
-- **Causal Extraction**: Uses Subject-Verb-Object (SVO)-based NLP to extract cause-effect relations.
-- **Neo4j Integration**: Uploads extracted nodes and edges into a Neo4j graph database.
-- **Clustering**: Combines text features and graph structure to cluster related financial concepts using KMeans.
-- **Modular & Reusable**: Clean architecture designed for easy integration with other data pipelines.
-
----
-
-## 🚀 Quick Start
-
-### 1. Install Dependencies
+Install the required packages:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-> Required libraries: `spacy`, `sklearn`, `sentence-transformers`, `neo4j`, `pandas`, `numpy`, etc.
+## Usage
 
----
-
-### 2. Run the Pipeline
-
-```python
-from fin_catch_pipeline_clean import run_pipeline
-
-run_pipeline(
-    csv_path="your_articles.csv",
-    uri="bolt://localhost:7687",
-    username="neo4j",
-    password="your_password"
-)
+```bash
+python fin_catch_pipeline_clean.py --input path/to/your_input.csv
 ```
 
----
+The input CSV should have the following format:
 
-## 📁 Input Format
+```csv
+source,URL
+wiki,https://en.wikipedia.org/wiki/Currency
+investopedia,https://www.investopedia.com/terms/f/financial_planning.asp
+...
+```
 
-Your CSV file must have at least a `content` column:
+The script will output an intermediate CSV file named `Extracted_Financial_Articles.csv` with the following columns:
+- `url`
+- `title`
+- `content`
+- `summary`
 
-| title | content |
-|-------|---------|
-| ...   | "The increase in interest rates caused a drop in housing demand..." |
+From there, it will extract causal relationships and build a Neo4j graph, then cluster concepts based on text content + graph structure.
 
----
+## Neo4j Setup
+
+Make sure to set your Neo4j credentials using environment variables or secrets. For example:
+
+```bash
+export NEO4J_URI=bolt://localhost:7687
+export NEO4J_USER=neo4j
+export NEO4J_PASSWORD=your_password
+```
+
+## Project Structure
+
+```
+fin_catch_pipeline_clean.py     # Main pipeline script
+Extracted_Financial_Articles.csv # Intermediate output from URL scraping
+README.md
+```
+
+## License
+
+MIT License
+
 
 ## 📊 Output
 
